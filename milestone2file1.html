@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Alex McConville Milestone 2</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var url = $(location).attr('href');
+            var file = url.split('?q=')[0];
+
+            var param = url.split('?q=')[1];
+            var term = param.split('&')[0];
+
+            var page = '&maxResults=10&startIndex=';
+
+            //$("#result").append(file + ' ' + term + ' ' + param + ' ');
+
+
+            var service_request = "https://www.googleapis.com/books/v1/volumes?q=" + param;
+
+            if (param != null) {
+
+                $("#result").append("<a href = \"" + file + "?q=" + term + page + "0\">1</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "10\">2</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "20\">3</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "30\">4</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "40\">5</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "50\">6</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "60\">7</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "70\">8</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "80\">9</a> ");
+                $("#result").append(" <a href = \"" + file + "?q=" + term + page + "90\">10</a> ");
+
+                $.getJSON(service_request, function(json) {
+
+                    var length = json.items.length;
+
+                    for (i = 0; i < length; i++) {
+                        var title = json.items[i].volumeInfo.title;
+                        if (json.items[i].volumeInfo.imageLinks != null) {
+                            var pic = '' + json.items[i].volumeInfo.imageLinks.smallThumbnail;
+                        } else {
+                            var pic = "no image.png";
+                        }
+
+                        var id = json.items[i].id;
+
+                        $("#result").append("<div id=\"b" + i + "\" style=\"margin-bottom: 5px; clear: both;\"></div>");
+                        $("#b" + i).html("<a href =\"milestone2file1book.html?id=" + id + "\">" + title + "</a><br>");
+                        $("#b" + i).append("<img style=\"float:center; margin: 4px; clear:both;\" src=\"" + pic + "\"alt=thumbnail picture of the book.\" />");
+
+
+                    }
+
+
+
+                });
+            }
+            //});
+
+        });
+    </script>
+    <style>
+        body {
+            background-color: #8c8c8c;
+        }
+        
+        .box {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+            margin-bottom: 70px;
+            padding: 10px;
+            width: 60%;
+            background-color: #89f1ff;
+        }
+        
+        .searchbox {
+            text-align: center;
+        }
+        
+        p {
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <a href="milestone2.html"><img src="home.png" alt="home icon" width="50" height="40"></a>
+        <div class="searchbox">
+            <input type="text" name="q" id="q" autofocus placeholder="Search for a book" size="50">
+
+            <button type="search" id="sb">Search</button>
+        </div>
+        <p id="result">Results:</p>
+    </div>
+</body>
+
+</html>
+
+</html>

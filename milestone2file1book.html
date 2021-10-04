@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Alex McConville Milestone 2</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var result = $("#result");
+            var url = $(location).attr('href');
+            var id = url.split('?id=')[1];
+
+            var service_request = "https://www.googleapis.com/books/v1/volumes/" + id;
+
+            $.getJSON(service_request, function(json) {
+
+                var pics = json.volumeInfo.imageLinks;
+                var pic = '';
+                if (pics.small != null) {
+                    pic = pics.small;
+                } else if (pics.thumbnail != null) {
+                    pic = pics.thumbnail;
+                } else {
+                    pic = 'no image.png';
+                }
+
+                var title = json.volumeInfo.title;
+                var subtitle = json.volumeInfo.subtitle;
+                if (json.volumeInfo.authors != null) {
+                    var authors = json.volumeInfo.authors;
+                } else {
+                    var authors = ["none"];
+                }
+                var publisher = json.volumeInfo.publisher;
+                var publishDate = json.volumeInfo.publishedDate;
+                var desc = json.volumeInfo.description;
+                var isbn = json.volumeInfo.industryIdentifiers[0].identifier;
+                var isbn13 = json.volumeInfo.industryIdentifiers[1].identifier;
+                var pageCount = json.volumeInfo.pageCount;
+                var avgRating = json.volumeInfo.averageRating;
+                var infoLink = json.volumeInfo.previewLink;
+                var tab = "&nbsp&nbsp&nbsp&nbsp&nbsp";
+
+                result.html("<img style=\"float:left; margin: 10px;\" src=\"" + pic + "\"alt=\"Book Cover Picture.\">");
+                result.append("<strong>Title: </strong><a target = \"_blank\" href = \"" + infoLink + "\">" + title + "</a><br>");
+                result.append("<strong>Subtitle: </strong>" + subtitle + "<br>");
+                result.append("<strong>Author(s): </strong>" + authors[0] + "</br>");
+                for (i = 1; i < authors.length; i++) {
+                    result.append(tab + authors[i] + "<br>");
+                }
+                result.append("<strong>Publisher: </strong>" + publisher + "<br>");
+                result.append("<strong>Date Published: </strong>" + publishDate + "<br>");
+                result.append("<strong>Description: </strong>" + desc + "<br>");
+                result.append("<strong>ISBN: </strong>" + isbn + "<br>");
+                result.append("<strong>ISBN_13: </strong>" + isbn13 + "<br>");
+                result.append("<strong>Page Count: </strong>" + pageCount + "<br>");
+                result.append("<strong>Average Rating: </strong>" + avgRating + "<br>");
+                result.append("<strong>Google Books Link: </strong><a target = \"_blank\" href = \"" + infoLink + "\">" + infoLink + "</a><br>");
+                //result.append(id);
+
+
+
+
+
+            });
+            google.books.load();
+
+            function initialize() {
+                var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
+                //viewer.load('ISBN:1847193641');
+                //viewer.load('ISBN:' + isbn);
+                //viewer.load('t-Ewe_dBk9wC');
+                viewer.load(id, notFound);
+                //if (viewer.load(id) == null) {
+                //$("#viewerCanvas").css("width", "0px");
+                //$("#viewerCanvas").css("height", "0px");
+                //}
+            }
+
+            function notFound() {
+                $("#viewerCanvas").css("width", "0px");
+                $("#viewerCanvas").css("height", "0px");
+            }
+            google.books.setOnLoadCallback(initialize);
+        });
+    </script>
+    <style>
+        body {
+            background-color: #8c8c8c;
+        }
+        
+        .box {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+            margin-bottom: 70px;
+            padding: 10px;
+            width: 60%;
+            background-color: #89f1ff;
+        }
+        
+        .view {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            height: 1000px;
+        }
+        
+        p {
+            text-align: left;
+            font-size: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="box">
+        <a href="milestone2.html"><img src="home.png" alt="home icon" width="50" height="40"></a>
+        <p id="result"></p>
+        <div class="view" id="viewerCanvas"></div>
+    </div>
+
+
+
+
+</body>
+
+</html>
