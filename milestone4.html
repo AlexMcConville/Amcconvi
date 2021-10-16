@@ -1,0 +1,86 @@
+<html>
+	<head>		
+		<title>Milestone 4</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="cssMilestone4.css">
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js">
+		</script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.0/mustache.min.js">
+		</script>
+		
+		<script id ="bookViewTemplate" type="text/template"> 
+			{{#items}}
+				<div class ="bookTemplate" id ='{{id}}' style="width: 40%;" dataLayout = "gridView">
+					{{#volumeInfo}}
+						{{#imageLinks}}
+							<img src ='{{thumbnail}}'/>
+						{{/imageLinks}}
+						<h2> {{title}} {{subtitle}} </h2>
+					{{/volumeInfo}}
+				</div>
+			{{/items}}
+		</script>
+	
+		<script id="bookDetails" type="text/template">
+				<div class ="bookDetailDisplay">
+					<div id = "bookViewOverlay">
+						<div style="text-align:left">
+							<input type ="button" id="buttonHide" value="Close" style="cursor:pointer"/> 
+						</div>
+						{{#volumeInfo}}							
+							<h2>{{title}} {{subtitle}}</h2>
+							{{#imageLinks}}
+								<img src ='{{thumbnail}}' style='margin:5 auto'/>
+							{{/imageLinks}}
+							
+							<div style="text-align:left">
+								<p style="clear: both;"><b>Author:</b> {{authors}}</p>
+								<p><b>Description:</b> {{description}}</p>
+								<p><b>Publisher:</b> {{publisher}}</p>
+								<p><b>Published Date:</b> {{publishedDate}}</p>
+								<p><b>PageCount:</b> {{pageCount}}</p>
+								<p><b>Rating:</b> {{averageRating}}</p>
+								<p><b>Categories:</b> {{categories}}</p>
+								<p><b>Book Preview:</b> <a href="{{previewLink}}" target="_blank"> {{previewLink}}</a></p>
+							</div>
+						{{/volumeInfo}}
+					</div>					
+				</div>
+		</script>
+						
+	</head>
+	
+	<body>
+		<div>
+			<h1>Milestone 4: Google Book Search using Mustache template</h1>
+			<h4><a href="http://nusrat.azurewebsites.net/#home">Return to Home Page</a></h4>
+			<div class="result">					
+				<input type = "text" id = "textbox" class = "searchbox">
+				<input type = "Submit" id = "searchBtn" resultCount = "0" class = "pageView" value = "Search">
+			</div>
+			<div class="result">
+				<span>Page</span>
+				<button id = "button" resultCount = "0" class = "pageView">1</button>
+				<button id = "button" resultCount = "10" class = "pageView">2</button>
+				<button id = "button" resultCount = "20" class = "pageView" >3</button>
+				<button id = "button" resultCount = "30" class = "pageView" >4</button>
+				<button id = "button" resultCount = "40" class = "pageView" >5</button>	
+			</div>	
+			<div class="result">
+				<button id="gridButton" class="layout"> Grid View </button>
+				<button id="listButton" class="layout"> List View </button>
+			</div>
+			<div class="result">			
+				<button id = "bookSearchButton" class = "switchView" > Book Search Page</button>
+				<button id = "bookshelf" class = "switchView"> My BookShelf</button> 
+				<div id= "gridView" class= "bookList" ></div>
+				<div id= "gridView" class= "searchResult"></div>
+				<div class = "bookView"></div>
+			</div>
+		</div>
+		
+		<script src="milestone4.js"></script>
+		
+	</body>
+</html>
